@@ -1,0 +1,21 @@
+##模型訓練
+from tensorflow import keras
+from keras.models import Sequential
+from keras.layers import Dense, Dropout
+
+#模型建立 
+model = Sequential()
+model.add(Dense(512, activation='relu', input_dim=784)) #第一層 訓練512個神經元
+model.add(Dropout(0.2)) #第二層 丟掉0.2個神經元
+model.add(Dense(10, activation='softmax')) #第三層 取出10個神經元
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+ 
+import numpy as np
+data = np.random.random((1000, 784)) 
+labels = np.random.randint(10, size=(1000, 10))
+ 
+#模型訓練
+model.fit(data, labels, epochs=10, batch_size=32)
+#模型預測
+score=model.evaluate(data, labels)
+print(score[1])
